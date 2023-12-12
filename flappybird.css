@@ -7,3 +7,40 @@ body {
   /* background-color: skyblue; */
   background-image: url("./assets/flappybirdbg.png");
 }
+
+body{
+  background-color: aquamarine;
+}
+
+#escolhaJogo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  background-color: rgb(32, 218, 187);
+  width: 100%;
+  border-radius: 20px;
+}
+
+#escolhaJogo label {
+  font-size: 30px;
+}
+
+#jogo{
+  padding-top: 10px;
+}
+
+#tabuleiro{
+  border: 20px solid rgb(0, 225, 255);
+  border-radius: 20px;
+}
+
+#quantia{
+  width: 300px;
+  height: 30px;
+}
+
+

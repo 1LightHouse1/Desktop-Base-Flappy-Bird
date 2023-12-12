@@ -37,6 +37,11 @@ let gravidade = 0.4; // Gravidade aplicada ao pássaro
 let jogoEncerrado = false; // Indica se o jogo está encerrado
 let pontuacao = 0; // Pontuação do jogador
 
+let jogoIniciado = false;
+let valorTotalApostado = 0;
+let distanciaHorizontal = 300;
+
+
 // Aguarda até que a página HTML seja totalmente carregada antes de executar o código
 window.onload = function () {
     // Obtém a referência do elemento do tabuleiro no HTML usando o ID "tabuleiro"
@@ -89,8 +94,13 @@ function atualizar() {
     // Solicita ao navegador que chame novamente a função atualizar na próxima renderização
     requestAnimationFrame(atualizar);
 
+    if (!jogoIniciado) {
+        // Se o jogo não foi iniciado, apenas retorne sem fazer nada
+        return;
+    }
+
     if (jogoEncerrado) {
-        contexto.fillText("FIM DE JOGO", 50, 60);
+        contexto.fillText("FIM DE JOGO", 50, 80);
         return;
     }
 
@@ -137,7 +147,7 @@ function atualizar() {
     // Pontuação
     contexto.fillStyle = "white";
     contexto.font = "45px sans-serif";
-    contexto.fillText(pontuacao, 5, 45);
+    contexto.fillText("R$" + pontuacao, 5, 45);
 
 
 
@@ -149,6 +159,7 @@ function gerarCanos() {
         return;
     }
 
+
     // Calcula uma posição Y aleatória para o conjunto de canos
     let posicaoYCanoAleatoria = posicaoYCano - alturaCano / 4 - Math.random() * (alturaCano / 2);
     // Define o espaço de abertura entre os canos como um quarto da altura do tabuleiro
@@ -157,7 +168,7 @@ function gerarCanos() {
     // Cria um objeto representando o cano superior
     let canoSuperior = {
         imagem: imagemCanoSuperior, // Imagem do cano superior
-        x: posicaoXCano, // Posição inicial do cano superior no eixo X
+        x: posicaoXCano + distanciaHorizontal, // Posição inicial do cano superior no eixo X
         y: posicaoYCanoAleatoria, // Posição inicial do cano superior no eixo Y
         largura: larguraCano, // Largura do cano
         altura: alturaCano, // Altura do cano
@@ -169,7 +180,7 @@ function gerarCanos() {
     // Cria um objeto representando o cano inferior
     let canoInferior = {
         imagem: imagemCanoInferior, // Imagem do cano inferior
-        x: posicaoXCano, // Posição inicial do cano inferior no eixo X
+        x: posicaoXCano + distanciaHorizontal, // Posição inicial do cano inferior no eixo X
         y: posicaoYCanoAleatoria + alturaCano + espacoAbertura, // Posição inicial do cano inferior no eixo Y
         largura: larguraCano, // Largura do cano
         altura: alturaCano, // Altura do cano
@@ -193,3 +204,34 @@ function detectarColisao(passaro, cano) {
 
     return false;
 }
+
+
+// ...
+
+function iniciarJogo() {
+    quantiaApostada = parseFloat(document.getElementById("quantia").value);
+    jogoEncerrado = false;
+    pontuacao = 0;
+    arrayCanos = [];
+    velocidadeX = -2;
+    velocidadeY = 0;
+    jogoIniciado = true;
+    valorTotalApostado += quantiaApostada;
+
+    // Oculta a div de escolha e mostra a div do jogo
+    document.getElementById("escolhaJogo").style.display = "none";
+    document.getElementById("jogo").style.display = "block";
+
+    ajustarDificuldade();
+
+    requestAnimationFrame(atualizar);
+}
+
+function ajustarDificuldade() {
+
+    velocidadeX = -2 - quantiaApostada * 0.1;
+
+}
+
+
+
